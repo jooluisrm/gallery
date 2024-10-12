@@ -11,6 +11,7 @@ const App = () => {
     const [loading, setLoading] = useState(false);
     const [photos, setPhotos] = useState<Photo[]>([]);
 
+
     useEffect(() => {
         const getPhotos = async () => {
             setLoading(true);
@@ -37,6 +38,19 @@ const App = () => {
                 newPhotoList.push(result);
                 setPhotos(newPhotoList);
             }
+        }
+    }
+
+    const handleDeletePost = async (name: string) => {
+        console.log('Apertou:', name);
+        let yesDelete = confirm("Realmente deseja deletar essa imagem?"); // confirmação para deletar img
+        if(!yesDelete) return;
+
+        setLoading(true);
+        let result = await Photos.deletePost(name);
+        setLoading(false);
+        if (result) {
+            setPhotos((prevPhoto) => prevPhoto.filter(photo => photo.name != name));
         }
     }
 
@@ -71,7 +85,7 @@ const App = () => {
                 {!loading && photos.length > 0 &&
                     <div className='grid grid-cols-4 gap-3'>
                         {photos.map((item, index) => (
-                            <PhotoItem key={index} url={item.url} name={item.name} />
+                            <PhotoItem key={index} url={item.url} name={item.name} onClick={handleDeletePost} />
                         ))}
                     </div>
                 }
