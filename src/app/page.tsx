@@ -23,6 +23,8 @@ const App = () => {
 
     const handleFormSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        let senha = prompt("Digite a senha para continuar:");
+        if (senha != '463329') return alert('Senha incorreta!!!');
         const formData = new FormData(e.currentTarget);
         const file = formData.get('image') as File;
 
@@ -43,9 +45,12 @@ const App = () => {
 
     const handleDeletePost = async (name: string) => {
         console.log('Apertou:', name);
+        let senha = prompt("Digite a senha para continuar:");
+        if (senha != '463329') return alert('Senha incorreta!!!');
+
         let yesDelete = confirm("Realmente deseja deletar essa imagem?"); // confirmação para deletar img
         if(!yesDelete) return;
-
+    
         setLoading(true);
         let result = await Photos.deletePost(name);
         setLoading(false);
